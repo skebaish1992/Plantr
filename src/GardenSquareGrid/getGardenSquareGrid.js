@@ -20,11 +20,7 @@ var gardens = [];
 
 var myGardens = [];
 
-// var likeGarden(){
-//     axios.post('/api/likes') {
-//       likesAndDislikes: this.props.garden:ikesAndDislikes['likes'][]
-//     }
-//   }
+
 
 
 var getAllGardens = function() {
@@ -174,6 +170,37 @@ class GardenSquareGridView extends React.Component{
     return `${suggestion.gardenName} ${suggestion.userEmail}`;
   }
 
+  likeGarden(title, message) {
+    const profile = auth.getProfile();
+    const profilePic = {
+      backgroundImage: 'url(' + profile.picture + ')',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    }
+    const currentCategory = this.props.currentCategory;
+    console.log("currentCategory ", currentCategory);
+    axios.post('/api/forum',
+      {
+        profile: profile.picture,
+        title: title,
+        message: message,
+        nickname: profile.nickname,
+        email: profile.email,
+        replies: [],
+        time: new Date().toDateString(),
+        category: currentCategory
+      }
+    ).then((res) => {
+      console.log("Successful posted on the client side of CreateNewPost");
+      this.props.closeModal();
+      this.props.dispatchSetEditing();
+      this.getPost();
+      this.props.dispatchSetEditing(); // <-- THIS IS NECESSARY, NOT A DUPLICATE
+    }).catch((err) => {
+      console.error("Error in creating a new post on CreateNewPost", err);
+    });
+  }
   renderSuggestion(suggestion, { query }) {
     const suggestionText = `${suggestion.gardenName} ${suggestion.userEmail}`;
     const matches = match(suggestionText, query);
