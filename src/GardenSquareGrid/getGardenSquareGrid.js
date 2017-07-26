@@ -41,6 +41,9 @@ var getAllGardens = function() {
               var dbGardenName = dbGardenGridData[i].gardenName;
               var dbProfilePicture = dbGardenGridData[i].profilePicture
               var dbProfileNickname = dbGardenGridData[i].dbProfileNickname;
+              var dbLikesAndDislikes = dbGardenGridData[i].likesAndDislikes
+
+              console.log("HERE IS THE GARDEN GRID DATA ", dbGardenGridData[i])
 
               gardenObj["gardenGrid"]=  dbGardenGrid;
               gardenObj["plantGrid"]= dbPlantGrid;
@@ -48,6 +51,9 @@ var getAllGardens = function() {
               gardenObj["gardenName"] = dbGardenName;
               gardenObj["profilePicture"] = dbProfilePicture;
               gardenObj["profileNickname"] = dbProfileNickname;
+              gardenObj["likesAndDislikes"] = dbLikesAndDislikes || {likes: {"Samy Kebaish" : 1},
+          dislikes: {"Ryan Perry": 1}}
+
 
               // console.log("Here is the garden Obj! ", gardenObj);
 
@@ -112,6 +118,7 @@ class GardenSquareGridView extends React.Component{
   };
 
   setGardenToSuggestion = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
+    console.log("Here is the suggestion", suggestion)
     var newGarden = suggestion.gardenGrid;
     var newPlantGrid = suggestion.plantGrid;
     this.props.dispatchSetSuggestedGarden(newGarden)

@@ -69,8 +69,8 @@ const MakeGardenSquareGridView = React.createClass({
         gardenName: gardenName,
         hardinessZone: zone,
         likesAndDislikes:
-          {likes: {},
-          dislikes: {}}
+          {likes: {"Samy Kebaish" : 1, "Ariel Salem" : 1},
+          dislikes: {"Ryan Perry": 1}}
       }
     ).then((res) => {
       console.log("Successful post");
