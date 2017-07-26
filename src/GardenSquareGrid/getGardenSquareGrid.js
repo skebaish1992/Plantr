@@ -90,7 +90,9 @@ class GardenSquareGridView extends React.Component{
       suggestions: [],
       propsdo: this.props,
       profileName: profile.nickname,
-      profileImage: profile.picture
+      profileImage: profile.picture,
+      likesAndDislikes: {likes: {},
+          dislikes: {}}
     };
 
     this.getGardens = this.getGardens.bind(this);
@@ -125,7 +127,8 @@ class GardenSquareGridView extends React.Component{
     this.props.dispatchSetSuggestedPlants(newPlantGrid)
     this.setState({
       profileName: suggestion.userEmail,
-      profileImage: suggestion.profilePicture
+      profileImage: suggestion.profilePicture,
+      likesAndDislikes: suggestion.likesAndDislikes
     })
   };
 
@@ -266,7 +269,7 @@ class GardenSquareGridView extends React.Component{
 
   render() {
 
-    const { value, suggestions, profileName, profileImage } = this.state;
+    const { value, suggestions, profileName, profileImage, likesAndDislikes} = this.state;
     const inputProps = {
       placeholder: "Search for a garden!",
       value,
@@ -283,7 +286,8 @@ class GardenSquareGridView extends React.Component{
       backgroundPosition: 'center',
       backgroundImage: 'url(' + profileImage + ')'
     }
-    console.log('profileImage', profileImage);
+    const likes = Object.keys(likesAndDislikes["likes"]).length;
+    const dislikes = Object.keys(likesAndDislikes["dislikes"]).length
     return (
       <div className="container">
           <div className="row">
@@ -299,8 +303,8 @@ class GardenSquareGridView extends React.Component{
                 renderSuggestion={this.renderSuggestion}
                 inputProps={inputProps} />
                 <br></br>
-                <h4>Likes: {this.props.likes || 0}</h4>
-                <h4>Dislikes: {this.props.dislikes || 0}</h4>
+                <h4>Likes: {likes || 0}</h4>
+                <h4>Dislikes: {dislikes || 0}</h4>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Facebook_logo_thumbs_up_like_transparent.png" height="40" onClick={()=> alert("You liked it!")
 
 
