@@ -34,9 +34,40 @@ router.get('/:email', function(req, res, next) {
   })
 });
 
+
+
 /*--------------------POST REQUEST---------------------------------------------*/
 
-router.post('/', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
+  console.log("HERE, and the ID IS THIS SAMY! ", req.body.id)
+   Garden.findById(req.body.id, (err, result) => {
+    if (err) {
+      console.error('There has been a serverside error updating the posts: ', err);
+      res.status(500);
+    } else {
+      console.log("Here is the result", result.likesAndDislikes)
+      console.log("Here are the likes and dislikes", req.body.likesAndDislikes)
+      var newLikes = Object.keys(req.body.likesAndDislikes['likes']);
+      var newDislikes = Object.keys(req.body.likesAndDislikes['likes']);
+      for (var i = 0; i<newLikes; i++){
+        newLikes[i] = newLikes[i].split('.').join('');
+      }
+      result.likesAndDislikes = req.body.likesAndDislikes;
+      result.save((err) => {
+        if (err) {
+          console.error('There has been a serverside error saving the updated posts: ', err);
+          res.status(500);
+        } else {
+          console.log('Successfully updated a post on the server');
+          res.status(200).send(result);
+        }
+      });
+    }
+  });
+  });
+
+
+  router.post('/', (req, res, next) => {
   var garden = new Garden({
     gardenId: req.body.gardenId,
     plantId: req.body.plantId,

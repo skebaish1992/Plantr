@@ -1135,10 +1135,14 @@ const addToShelf= (state, action) => {
   if (plantShelfCopy.length > 8) {
     plantShelfCopy.shift();
     for (let i = 0; i <plantShelfCopy.length; i++) {
+      console.log("Here is the plant shelf copy",plantShelfCopy[i])
       plantShelfCopy[i]['x'] = plantShelfCopy[i]['x'] - 50;
     }
   }
-  let lastObject = plantShelfCopy[plantShelfCopy.length--];
+
+
+  let lastObject = plantShelfCopy[plantShelfCopy.length -1];
+  console.log("Here is the last object", lastObject)
   let lastObjectX = lastObject['x'];
   let lastObjectY = lastObject['y'];
   let newShelfX = lastObjectX + 50;

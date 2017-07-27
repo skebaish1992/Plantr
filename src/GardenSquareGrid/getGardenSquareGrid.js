@@ -42,6 +42,8 @@ var getAllGardens = function() {
               var dbProfilePicture = dbGardenGridData[i].profilePicture
               var dbProfileNickname = dbGardenGridData[i].dbProfileNickname;
               var dbLikesAndDislikes = dbGardenGridData[i].likesAndDislikes
+              var dbGardenId = dbGardenGridData[i]['_id']
+              console.log("ID IS ", dbGardenId)
 
               console.log("HERE IS THE GARDEN GRID DATA ", dbGardenGridData[i])
 
@@ -51,6 +53,7 @@ var getAllGardens = function() {
               gardenObj["gardenName"] = dbGardenName;
               gardenObj["profilePicture"] = dbProfilePicture;
               gardenObj["profileNickname"] = dbProfileNickname;
+              gardenObj["id"] = dbGardenId
               gardenObj["likesAndDislikes"] = dbLikesAndDislikes || {likes: {"Samy Kebaish" : 1},
           dislikes: {"Ryan Perry": 1}}
 
@@ -91,6 +94,7 @@ class GardenSquareGridView extends React.Component{
       propsdo: this.props,
       profileName: profile.nickname,
       profileImage: profile.picture,
+      id: 1,
       likesAndDislikes: {likes: {},
           dislikes: {}}
     };
@@ -128,7 +132,8 @@ class GardenSquareGridView extends React.Component{
     this.setState({
       profileName: suggestion.userEmail,
       profileImage: suggestion.profilePicture,
-      likesAndDislikes: suggestion.likesAndDislikes
+      likesAndDislikes: suggestion.likesAndDislikes,
+      id: suggestion.id
     })
   };
 
@@ -180,37 +185,46 @@ class GardenSquareGridView extends React.Component{
     return `${suggestion.gardenName} ${suggestion.userEmail}`;
   }
 
-  likeGarden(title, message) {
-    const profile = auth.getProfile();
-    const profilePic = {
-      backgroundImage: 'url(' + profile.picture + ')',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
+  likeOrDislikeGarden(id, likesAndDislikes, user, like) {
+  var hasUserLikedBefore = likesAndDislikes['likes'].hasOwnProperty(user);
+  var hasUserDislikedBefore = likesAndDislikes['dislikes'].hasOwnProperty(user);
+  if (like){
+    if(!hasUserLikedBefore){
+        likesAndDislikes['likes'][user] = 1;
+
+         axios.put('/api/gardens/' + id,
+        {
+          id: id,
+          likesAndDislikes: likesAndDislikes,
+        }
+      ).then((res) => {
+        this.props.dispatchSetEditing();
+        this.getPost();
+      }).catch((err) => {
+        console.error("Post has not updated on EditPost: ", err);
+      });
+    } else {
+      return alert("You have already liked this garden.")
     }
-    const currentCategory = this.props.currentCategory;
-    console.log("currentCategory ", currentCategory);
-    axios.post('/api/forum',
-      {
-        profile: profile.picture,
-        title: title,
-        message: message,
-        nickname: profile.nickname,
-        email: profile.email,
-        replies: [],
-        time: new Date().toDateString(),
-        category: currentCategory
-      }
-    ).then((res) => {
-      console.log("Successful posted on the client side of CreateNewPost");
-      this.props.closeModal();
-      this.props.dispatchSetEditing();
-      this.getPost();
-      this.props.dispatchSetEditing(); // <-- THIS IS NECESSARY, NOT A DUPLICATE
-    }).catch((err) => {
-      console.error("Error in creating a new post on CreateNewPost", err);
-    });
+  } else if (!like){
+    if(!hasUserDislikedBefore){
+        likesAndDislikes['dislikes'][user] = 1;
+         axios.put('/api/gardens/' + id,
+        {
+          id: id,
+          likesAndDislikes: likesAndDislikes,
+        }
+      ).then((res) => {
+        this.props.dispatchSetEditing();
+        this.getPost();
+      }).catch((err) => {
+        console.error("Post has not updated on EditPost: ", err);
+      });
+    } else {
+      return alert("You have already disliked this garden.")
+    }
   }
+}
   renderSuggestion(suggestion, { query }) {
     const suggestionText = `${suggestion.gardenName} ${suggestion.userEmail}`;
     const matches = match(suggestionText, query);
@@ -269,7 +283,7 @@ class GardenSquareGridView extends React.Component{
 
   render() {
 
-    const { value, suggestions, profileName, profileImage, likesAndDislikes} = this.state;
+    const { value, suggestions, profileName, profileImage, likesAndDislikes, id} = this.state;
     const inputProps = {
       placeholder: "Search for a garden!",
       value,
@@ -305,12 +319,12 @@ class GardenSquareGridView extends React.Component{
                 <br></br>
                 <h4>Likes: {likes || 0}</h4>
                 <h4>Dislikes: {dislikes || 0}</h4>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Facebook_logo_thumbs_up_like_transparent.png" height="40" onClick={()=> alert("You liked it!")
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Facebook_logo_thumbs_up_like_transparent.png" height="40" onClick={()=> this.likeOrDislikeGarden(id, likesAndDislikes, profileName, true)
 
 
 
               }/>
-                <img src="https://3.bp.blogspot.com/-qYdpTgtVfxM/VI0U19aUXeI/AAAAAAAACjI/TGhREhcnSes/s1600/2.png" height="40" onClick={()=> alert("You disliked it!")}/>
+                <img src="https://3.bp.blogspot.com/-qYdpTgtVfxM/VI0U19aUXeI/AAAAAAAACjI/TGhREhcnSes/s1600/2.png" height="40" onClick={()=> this.likeOrDislikeGarden(id, likesAndDislikes, profileName, false)}/>
 
             </div>
           </div>
