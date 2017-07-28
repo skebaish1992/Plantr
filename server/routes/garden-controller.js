@@ -48,10 +48,26 @@ router.put('/:id', (req, res, next) => {
       console.log("Here is the result", result.likesAndDislikes)
       console.log("Here are the likes and dislikes", req.body.likesAndDislikes)
       var newLikes = Object.keys(req.body.likesAndDislikes['likes']);
-      var newDislikes = Object.keys(req.body.likesAndDislikes['likes']);
-      for (var i = 0; i<newLikes; i++){
-        newLikes[i] = newLikes[i].split('.').join('');
+      var newDislikes = Object.keys(req.body.likesAndDislikes['dislikes']);
+      var newLikesObj = {'likes': {}}
+      var newDislikesObj = {'dislikes': {}}
+
+      for (var i = 0; i<newLikes.length; i++){
+        var fixedLikesName = newLikes[i].split('.').join('');
+        newLikesObj['likes'][fixedLikesName] = 1;
+        console.log("Here are the new Likes", newLikesObj)
       }
+
+      for (var i = 0; i<newDislikes.length; i++){
+        var fixedDislikesName = newDislikes[i].split('.').join('');
+        newDislikesObj['dislikes'][fixedDislikesName] = 1;
+        console.log("Here are the new Dislikeikes", newDislikesObj)
+      }
+
+      req.body.likesAndDislikes['likes'] = newLikesObj;
+      req.body.likesAndDislikes['dislikes'] = newDislikesObj;
+      console.log("FIXED REQ BODY", req.body.likesAndDislikes)
+
       result.likesAndDislikes = req.body.likesAndDislikes;
       result.save((err) => {
         if (err) {
