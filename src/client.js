@@ -1,6 +1,7 @@
 import AboutUs from './About/AboutUs'
 import AuthService from './config/AuthService.js';
 import Forum from './Forum/Forum';
+import Friends from './Friends/Friends'
 import Categories from './Forum/Categories'
 import GardenSquareGridView from './GardenSquareGrid/getGardenSquareGrid';
 import { HashRouter as BrowserRouter, Route, Link } from 'react-router-dom';
@@ -72,6 +73,9 @@ class App extends Component {
                 )} />
                 <Route path="/creategarden" render={ () => (
                   <MakeGardenSquareGridView profile={profile} />
+                )} />
+                <Route path="/Friends" render={ () => (
+                  <Friends profile={profile} />
                 )} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/forum" render={ () => (

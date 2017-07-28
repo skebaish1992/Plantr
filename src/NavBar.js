@@ -40,6 +40,7 @@ export default class NavBar extends React.Component {
             <DropdownItem><Link className="nav-link" to="/squares">Community Gardens</Link></DropdownItem>
             <DropdownItem><Link className="nav-link" to="/creategarden">Create A Garden</Link></DropdownItem>
             <DropdownItem><Link className="nav-link" to="/forum">Forum</Link></DropdownItem>
+            <DropdownItem><Link className="nav-link" to="/forum">Friends</Link></DropdownItem>
             <DropdownItem><Link className="nav-link" to="/about">About Us</Link></DropdownItem>
             <DropdownItem><Link className="nav-link" to="/profile">Profile</Link>            </DropdownItem>
             <DropdownItem><a className="nav-link" href="javascript:window.location.reload()" onClick={auth.logout.bind(this)}>Logout</a></DropdownItem>
@@ -56,6 +57,9 @@ export default class NavBar extends React.Component {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/forum">Forum</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/friends">Friends</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/about">About Us</Link>
