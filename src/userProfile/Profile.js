@@ -56,6 +56,9 @@ class Profile extends Component {
   render() {
     const profile = this.props.profile;
     const userGardens = [];
+
+    console.log("Here is the profile", profile)
+
     return(
       <div>
         <div className="profile-style">

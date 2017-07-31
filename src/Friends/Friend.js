@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 
 import ReactDOM from 'react-dom'
-import Friend from './Friend'
 
-class Friends extends Component {
-
-  getAllUsers() {
-    axios.get('/api/users/');
-  }
+class Friend extends Component {
 
 
   render() {
@@ -21,7 +16,7 @@ class Friends extends Component {
             <div className="row">
               <a target="_blank" href="https://www.linkedin.com/in/ariel-salem-43199412a">
               <div className="profiles">
-                <p className="name">Ariel Salem</p>
+                <p className="name">this.props.profile.name</p>
                 <img src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAh_AAAAJGY5YTM4MzJkLTcxNWMtNDU2Yy04NjNlLTZkODFkMzZkNzYwZA.jpg" />
                 <br />
                 <br />
@@ -57,5 +52,4 @@ class Friends extends Component {
     )
   }
 }
-export default Friends;
-
+export default Friend;
