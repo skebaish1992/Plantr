@@ -4,7 +4,8 @@ const initialUserState = {
   isFetching: false,
   isAuthenticated: localStorage.getItem('id_token') ? true : false,
   about: '',
-  profile: {}
+  profile: {},
+  allFriends: []
 }
 
 const setAboutMe = (state, action) => {
@@ -31,12 +32,23 @@ const userProfile = (state, action) => {
   return newState;
 }
 
+const setAllFriends = (state, action) => {
+  console.log('The setAllFriends reducer action is: ', action);
+
+  let newState = {};
+  let {allFriends} = state;
+  Object.assign(newState, state, {allFriends: action.allFriends})
+  return newState
+}
+
 function userReducer(state = initialUserState, action) {
   switch (action.type) {
   case 'ADD_ABOUT' :
     return setAboutMe(state, action);
   case 'ADD_PROFILE' :
     return setProfile(state, action);
+  case 'SET_ALL_FRIENDS' :
+    return setAllFriends(state, action);
   // case 'LOGIN_REQUEST':
   //   return Object.assign({}, state, {
   //     isFetching: true,
