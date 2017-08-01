@@ -23,6 +23,14 @@ class Friend extends Component {
                   <p className="about-me-description">
                   {this.props.about}
                   </p>
+                  <br></br><br></br>
+
+                  <div>
+                  <button className="d-block bg-success" onClick={() =>{
+                    alert("Added as a friend")
+                  }
+                  }>Add As Friend</button>
+                  </div>
                 </div>
               </div>
           </div>

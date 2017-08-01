@@ -57,6 +57,8 @@ var getAllGardens = function() {
               gardenObj["likesAndDislikes"] = dbLikesAndDislikes || {likes: {"Samy Kebaish" : 1},
           dislikes: {"Ryan Perry": 1}}
 
+              console.log("Here are the database likes and dislikes", dbLikesAndDislikes)
+
 
               // console.log("Here is the garden Obj! ", gardenObj);
 
@@ -82,7 +84,7 @@ var dislikes = 0;
 var currentUsername = 0;
 
 
-getAllGardens();
+// getAllGardens();
 
 class GardenSquareGridView extends React.Component{
  constructor() {
@@ -103,7 +105,7 @@ class GardenSquareGridView extends React.Component{
   }
 
   componentDidMount(){
-    this.getAllGardens()
+    getAllGardens()
   }
 
   onChange = (event, { newValue, method }) => {
@@ -198,8 +200,7 @@ class GardenSquareGridView extends React.Component{
           likesAndDislikes: likesAndDislikes,
         }
       ).then((res) => {
-        this.props.dispatchSetEditing();
-        this.getPost();
+        getAllGardens();
       }).catch((err) => {
         console.error("Post has not updated on EditPost: ", err);
       });
@@ -215,8 +216,7 @@ class GardenSquareGridView extends React.Component{
           likesAndDislikes: likesAndDislikes,
         }
       ).then((res) => {
-        this.props.dispatchSetEditing();
-        this.getPost();
+        getAllGardens();
       }).catch((err) => {
         console.error("Post has not updated on EditPost: ", err);
       });
@@ -320,9 +320,6 @@ class GardenSquareGridView extends React.Component{
                 <h4>Likes: {likes || 0}</h4>
                 <h4>Dislikes: {dislikes || 0}</h4>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Facebook_logo_thumbs_up_like_transparent.png" height="40" onClick={()=> this.likeOrDislikeGarden(id, likesAndDislikes, profileName, true)
-
-
-
               }/>
                 <img src="https://3.bp.blogspot.com/-qYdpTgtVfxM/VI0U19aUXeI/AAAAAAAACjI/TGhREhcnSes/s1600/2.png" height="40" onClick={()=> this.likeOrDislikeGarden(id, likesAndDislikes, profileName, false)}/>
 

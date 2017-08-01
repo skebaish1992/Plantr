@@ -49,18 +49,18 @@ router.put('/:id', (req, res, next) => {
       console.log("Here are the likes and dislikes", req.body.likesAndDislikes)
       var newLikes = Object.keys(req.body.likesAndDislikes['likes']);
       var newDislikes = Object.keys(req.body.likesAndDislikes['dislikes']);
-      var newLikesObj = {'likes': {}}
-      var newDislikesObj = {'dislikes': {}}
+      var newLikesObj = {}
+      var newDislikesObj = {}
 
       for (var i = 0; i<newLikes.length; i++){
         var fixedLikesName = newLikes[i].split('.').join('');
-        newLikesObj['likes'][fixedLikesName] = 1;
+        newLikesObj[fixedLikesName] = 1;
         console.log("Here are the new Likes", newLikesObj)
       }
 
       for (var i = 0; i<newDislikes.length; i++){
         var fixedDislikesName = newDislikes[i].split('.').join('');
-        newDislikesObj['dislikes'][fixedDislikesName] = 1;
+        newDislikesObj[fixedDislikesName] = 1;
         console.log("Here are the new Dislikeikes", newDislikesObj)
       }
 
