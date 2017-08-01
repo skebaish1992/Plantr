@@ -6,8 +6,21 @@ import ReactDOM from 'react-dom'
 class Friend extends Component {
 
 
-  render() {
+  addFriend(currentUserId, attributes) {
+  axios.put('/api/users/friends/' + currentUserId,
+    {
+      id: currentUserId,
+      friendAttributes: attributes
+    }
+  ).then((res) => {
+  }).catch((err) => {
+    console.error("Post has not updated on EditPost: ", err);
+  });
+  }
 
+
+  render() {
+    let context = this;
     return (
         <div>
           <div className="col-md-8">
@@ -27,7 +40,15 @@ class Friend extends Component {
 
                   <div>
                   <button className="d-block bg-success" onClick={() =>{
-                    alert("Added as a friend")
+                    let currentUserId = this.props.currentUser;
+                    let friendProperties = {
+                      'currentUserId': currentUserId,
+                      'profilePhoto': this.props.profilePhoto,
+                      'email': this.props.email
+                    }
+
+                    context.addFriend(currentUserId, friendProperties);
+                    alert("You added " + this.props.email + " as a friend!")
                   }
                   }>Add As Friend</button>
                   </div>

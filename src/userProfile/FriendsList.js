@@ -29,6 +29,7 @@ class FriendsList extends Component {
 
   render() {
     const profile = this.props.profile;
+    console.log(this.props.friends)
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1 right user-recent">
@@ -43,7 +44,7 @@ class FriendsList extends Component {
             </div>
             <hr />
             <div>
-                {this.props.posts.map((post, i) => <FriendsListEntry key={i} friend={post} /> )}
+                {this.props.friends.map((post, i) => <FriendsListEntry key={i} friend={post} /> )}
             </div>
           </div>
         </div>

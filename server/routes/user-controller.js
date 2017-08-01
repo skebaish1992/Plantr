@@ -124,4 +124,33 @@ router.put('/:id', (req, res, next) => {
   });
 });
 
+
+
+router.put('/friends/:id', (req, res, next) => {
+  Client.findById(req.params.id, (err, result) => {
+    if (err) {
+      console.error('There has been a serverside error updating the friends ', err);
+      res.status(500);
+    } else {
+      console.log("Here is the friend id", req.body.id)
+      console.log("Here are the friend attributes", req.body.friendAttributes)
+      // console.log("Here is the req.body", req.body);
+      // console.log("Here are the req.params", req.params);
+      console.log("result.friends before", result.friends)
+      result.friends.push(req.body.friendAttributes);
+
+      console.log("After", result.friends)
+      result.save((err) => {
+        if (err) {
+          console.error('There has been a serverside error saving the updated aboutMe: ', err);
+          res.status(500);
+        } else {
+          console.log('Successfully updated Friends list on the server');
+          res.status(200).send(result);
+        }
+      });
+    }
+  });
+});
+
 module.exports = router;

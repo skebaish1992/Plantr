@@ -10,6 +10,15 @@ import RecentPosts from './RecentPosts';
 import { setPlantHardiness } from '../Actions/WeatherActions';
 
 class Profile extends Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+      friends: []
+    };
+  }
+
+
+
   getHardiness() {
     let zipCode = this.props.coordinates;
     axios.get('api/users/hardiness', {
@@ -28,6 +37,13 @@ class Profile extends Component {
     axios.get('/api/users/' + profile.email)
     .then((res) => {
       if (res.data) {
+        console.log("The state", this.state)
+        console.log(res.data);
+        this.setState({
+          friends: res.data.friends
+        })
+      console.log("The state", this.state)
+
         return;
       } else {
         axios.post('/api/users', {
@@ -67,7 +83,7 @@ class Profile extends Component {
               <ProfilePic profile={profile} />
               <hr className="profile-divider-line" />
               <About profile={profile} />
-              <FriendsList profile={profile} />
+              <FriendsList profile={profile} friends={this.state.friends}/>
               <hr className="profile-divider-line" />
             </div>
             <div className="col-md-9">
